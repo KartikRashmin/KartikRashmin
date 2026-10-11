@@ -12,7 +12,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 from zoneinfo import ZoneInfo
 
-USER = "KartikHalkunde"
+USER = "KartikRashmin"
 DOB = date(2005, 9, 26)
 W = 64      # width (in characters) of the info column
 GAP = 3     # spaces between ASCII art and info column
@@ -281,7 +281,7 @@ def build_info():
         [],
         head("Contact"),
         row("Email.Personal", "kartikhalkunde26@gmail.com"),
-        row("Email.Work", "kartikhalkunde@proton.me"),
+        row("Email.Work", "connect@kartikrashmin.me"),
         row("LinkedIn", "in/kartikrashmin"),
         row("LeetCode", "u/KartikRashmin"),
         [],
