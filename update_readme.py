@@ -280,7 +280,7 @@ def build_info():
         row("Hobbies.Hardware", "Painting, Music"),
         [],
         head("Contact"),
-        row("Email.Personal", "kartikhalkunde26@gmail.com"),
+        row("Email.Personal", "kartikrashmin@gmail.com"),
         row("Email.Work", "connect@kartikrashmin.me"),
         row("LinkedIn", "in/kartikrashmin"),
         row("LeetCode", "u/KartikRashmin"),
