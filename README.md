@@ -16,7 +16,7 @@
 </p>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KartikRashmin/KartikRashmin/output/github-snake-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/KartikRashmin/KartikRashmin/output/github-snake.svg">
-  <img alt="GitHub contribution snake" src="https://raw.githubusercontent.com/KartikRashmin/KartikRashmin/output/github-snake.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/isometric-3d-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/isometric-3d-light.svg">
+  <img alt="Isometric 3D GitHub contribution graph" src="assets/isometric-3d-light.svg">
 </picture>

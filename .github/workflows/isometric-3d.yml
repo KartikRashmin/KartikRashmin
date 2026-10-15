@@ -1,0 +1,57 @@
+name: Generate Isometric 3D Contributions
+
+on:
+  push:
+    branches: [experiment/isometric-3d-contributions]
+    paths:
+      - README.md
+      - .github/workflows/isometric-3d.yml
+  workflow_dispatch:
+  # Schedules run only from the default branch. Enable main in the job guard after promotion.
+  schedule:
+    - cron: '37 3 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.ref == 'refs/heads/experiment/isometric-3d-contributions'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the experiment branch
+        uses: actions/checkout@v4
+
+      - name: Download light and dark isometric SVGs
+        run: |
+          curl --fail --location --silent --show-error --retry 3 --max-time 180 \
+            --output assets/isometric-3d-light.svg \
+            'https://isometric-contributions-spectrewolf8.onrender.com/api/graph?username=KartikRashmin&theme=light'
+          curl --fail --location --silent --show-error --retry 3 --max-time 180 \
+            --output assets/isometric-3d-dark.svg \
+            'https://isometric-contributions-spectrewolf8.onrender.com/api/graph?username=KartikRashmin&theme=dark'
+
+      - name: Validate generated SVGs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+
+          for theme in ('light', 'dark'):
+              path = Path(f'assets/isometric-3d-{theme}.svg')
+              if not path.stat().st_size or ElementTree.parse(path).getroot().tag != '{http://www.w3.org/2000/svg}svg':
+                  raise SystemExit(f'Invalid {theme} SVG')
+          PY
+
+      - name: Commit changed SVGs to the experiment branch
+        run: |
+          git add -- assets/isometric-3d-light.svg assets/isometric-3d-dark.svg
+          if git diff --cached --quiet; then
+            echo 'Isometric SVGs are unchanged.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: update isometric 3D contribution graphs'
+          git push origin HEAD:refs/heads/experiment/isometric-3d-contributions
