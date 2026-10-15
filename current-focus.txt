@@ -1,0 +1,2 @@
+Building: Saefr Photos — a self-hosted photo and video management application.
+Exploring: Backend engineering, system design, and open-source development.

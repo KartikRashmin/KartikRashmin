@@ -1,0 +1,41 @@
+name: Update Featured Projects
+
+on:
+  push:
+    branches: [experiment/readme-redesign]
+    paths:
+      - README.md
+      - current-focus.txt
+      - scripts/generate_featured_projects.py
+      - .github/workflows/featured-projects.yml
+  workflow_dispatch:
+  schedule:
+    - cron: '17 4 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.ref == 'refs/heads/experiment/readme-redesign' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Render pinned repositories and current focus
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/generate_featured_projects.py
+      - name: Commit generated changes
+        run: |
+          git add -A -- README.md assets/featured
+          if git diff --cached --quiet; then
+            echo 'Featured projects and current focus are unchanged.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: refresh featured projects'
+          git push origin HEAD:"$GITHUB_REF"
