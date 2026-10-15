@@ -27,10 +27,10 @@ jobs:
         run: |
           curl --fail --location --silent --show-error --retry 3 --max-time 180 \
             --output assets/isometric-3d-light.svg \
-            'https://isometric-contributions-spectrewolf8.onrender.com/api/graph?username=KartikRashmin&theme=light'
+            'https://isometric-contributions-spectrewolf8.onrender.com/api/graph?username=KartikRashmin&theme=light&stats=true&credit=true'
           curl --fail --location --silent --show-error --retry 3 --max-time 180 \
             --output assets/isometric-3d-dark.svg \
-            'https://isometric-contributions-spectrewolf8.onrender.com/api/graph?username=KartikRashmin&theme=dark'
+            'https://isometric-contributions-spectrewolf8.onrender.com/api/graph?username=KartikRashmin&theme=dark&stats=true&credit=true'
 
       - name: Validate generated SVGs
         run: |
