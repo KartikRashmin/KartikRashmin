@@ -1,0 +1,49 @@
+name: Generate 3D Green Contributions
+
+on:
+  push:
+    branches: [experiment/3d-green-contributions]
+    paths:
+      - README.md
+      - .github/workflows/profile-3d-green.yml
+  workflow_dispatch:
+  # Schedules run only from the default branch. Enable main in the job guard after promotion.
+  schedule:
+    - cron: '13 3 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.ref == 'refs/heads/experiment/3d-green-contributions'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the experiment branch
+        uses: actions/checkout@v4
+
+      - name: Generate 3D contribution variants
+        uses: yoshi389111/github-profile-3d-contrib@7d95e7d4cdc028dd1e1cbd957d65f35efb12ae39 # v0.9.3
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          USERNAME: KartikRashmin
+
+      - name: Copy selected themes into assets
+        run: |
+          test -s profile-3d-contrib/profile-green-animate.svg
+          test -s profile-3d-contrib/profile-night-green.svg
+          cp profile-3d-contrib/profile-green-animate.svg assets/profile-green-animate.svg
+          cp profile-3d-contrib/profile-night-green.svg assets/profile-night-green.svg
+
+      - name: Commit changed SVGs to the experiment branch
+        run: |
+          git add -- assets/profile-green-animate.svg assets/profile-night-green.svg
+          if git diff --cached --quiet; then
+            echo '3D contribution SVGs are unchanged.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: update 3D green contribution graphs'
+          git push origin HEAD:refs/heads/experiment/3d-green-contributions
