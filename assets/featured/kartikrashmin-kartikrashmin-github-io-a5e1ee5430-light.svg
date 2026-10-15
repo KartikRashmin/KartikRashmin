@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="216" viewBox="0 0 520 216" role="img" aria-label="KartikRashmin/kartikrashmin.github.io repository card">
+<rect x="0.5" y="0.5" width="519" height="215" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+<g font-family="&#x27;SFMono-Regular&#x27;,&#x27;Consolas&#x27;,&#x27;Liberation Mono&#x27;,&#x27;Menlo&#x27;,&#x27;DejaVu Sans Mono&#x27;,monospace">
+<text x="22" y="35" fill="#8c959f" font-size="14">&gt; ~/</text>
+<text x="56" y="35" fill="#0550ae" font-size="14">KartikRashmin/kartikrashmin.github.io</text>
+<line x1="22" y1="66" x2="498" y2="66" stroke="#d0d7de"/>
+<text x="22" y="91" fill="#24292f" font-size="12">My personal resume website, showcasing my technical skills,</text>
+<text x="22" y="111" fill="#24292f" font-size="12">professional experience, projects, and achievements. Built with</text>
+<text x="22" y="131" fill="#24292f" font-size="12">HTML, CSS and Google's Material Design Lite (MDL).</text>
+<text x="22" y="190" fill="#bc4c00" font-size="12">lang: </text>
+<text x="65.2" y="190" fill="#0550ae" font-size="12">HTML</text>
+<text x="104.0" y="190" fill="#8c959f" font-size="12">·</text>
+<text x="123.0" y="190" fill="#bc4c00" font-size="12">stars: </text>
+<text x="173.4" y="190" fill="#0550ae" font-size="12">1</text>
+<text x="190.6" y="190" fill="#8c959f" font-size="12">·</text>
+<text x="209.6" y="190" fill="#bc4c00" font-size="12">forks: </text>
+<text x="260.0" y="190" fill="#0550ae" font-size="12">1</text>
+</g>
+</svg>
