@@ -26,6 +26,8 @@
 </div>
 <!-- featured-projects:end -->
 
+<br>
+
 ```bash
 > git contributions --visualize
 ```
