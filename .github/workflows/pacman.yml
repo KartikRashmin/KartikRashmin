@@ -1,0 +1,50 @@
+name: Generate Pac-Man Contributions
+
+on:
+  push:
+    branches: [experiment/pacman-contributions]
+    paths:
+      - README.md
+      - .github/workflows/pacman.yml
+  workflow_dispatch:
+  # Schedules run only from the default branch. Enable main in the job guard after promotion.
+  schedule:
+    - cron: '17 2 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.ref == 'refs/heads/experiment/pacman-contributions'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the experiment branch
+        uses: actions/checkout@v4
+
+      - name: Generate light and dark Pac-Man SVGs
+        uses: abozanona/pacman-contribution-graph@7332e1de7903ab780c3692a4127a59cc13872daa # v5.3.2
+        with:
+          github_user_name: KartikRashmin
+          github_token: ${{ github.token }}
+          games: pacman
+
+      - name: Copy generated SVGs into assets
+        run: |
+          test -s dist/pacman-contribution-graph.svg
+          test -s dist/pacman-contribution-graph-dark.svg
+          cp dist/pacman-contribution-graph.svg assets/pacman-contribution-graph.svg
+          cp dist/pacman-contribution-graph-dark.svg assets/pacman-contribution-graph-dark.svg
+
+      - name: Commit changed SVGs to the experiment branch
+        run: |
+          git add -- assets/pacman-contribution-graph.svg assets/pacman-contribution-graph-dark.svg
+          if git diff --cached --quiet; then
+            echo 'Pac-Man SVGs are unchanged.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: update Pac-Man contribution animation'
+          git push origin HEAD:refs/heads/experiment/pacman-contributions

@@ -16,7 +16,7 @@
 </p>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KartikRashmin/KartikRashmin/output/github-snake-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/KartikRashmin/KartikRashmin/output/github-snake.svg">
-  <img alt="GitHub contribution snake" src="https://raw.githubusercontent.com/KartikRashmin/KartikRashmin/output/github-snake.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/pacman-contribution-graph-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/pacman-contribution-graph.svg">
+  <img alt="GitHub contribution Pac-Man animation" src="assets/pacman-contribution-graph.svg">
 </picture>
