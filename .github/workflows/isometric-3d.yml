@@ -2,12 +2,11 @@ name: Generate Isometric 3D Contributions
 
 on:
   push:
-    branches: [experiment/isometric-3d-contributions]
+    branches: [main]
     paths:
       - README.md
       - .github/workflows/isometric-3d.yml
   workflow_dispatch:
-  # Schedules run only from the default branch. Enable main in the job guard after promotion.
   schedule:
     - cron: '37 3 * * *'
 
@@ -16,7 +15,7 @@ permissions:
 
 jobs:
   generate:
-    if: github.ref == 'refs/heads/experiment/isometric-3d-contributions'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -54,4 +53,4 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git commit -m 'chore: update isometric 3D contribution graphs'
-          git push origin HEAD:refs/heads/experiment/isometric-3d-contributions
+          git push origin HEAD:refs/heads/main
