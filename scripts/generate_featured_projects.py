@@ -42,8 +42,10 @@ query($login: String!) {
 }
 """
 CARD_WIDTH = 520
-CARD_HEIGHT = 216
+CARD_HEIGHT = 284
 MAX_CARDS = 4
+TITLE_FONT_SIZE = 18
+BODY_FONT_SIZE = 16
 
 
 @dataclass(frozen=True)
@@ -119,8 +121,8 @@ def lines(value: str, width: int, limit: int) -> list[str]:
 
 def render_card(repo: Repository, theme: str) -> str:
     color = THEMES[theme]
-    title = lines(repo.full_name, 50, 2)
-    description = lines(repo.description or "No description provided.", 65, 4)
+    title = lines(repo.full_name, 40, 2)
+    description = lines(repo.description or "No description provided.", 47, 6)
     # The SVG is a display-only image. README anchors provide the clickable URL.
     output = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{CARD_WIDTH}" height="{CARD_HEIGHT}" '
@@ -129,21 +131,21 @@ def render_card(repo: Repository, theme: str) -> str:
         f'<rect x="0.5" y="0.5" width="{CARD_WIDTH - 1}" height="{CARD_HEIGHT - 1}" '
         f'rx="10" fill="{color["bg"]}" stroke="{color["border"]}"/>',
         f'<g font-family="{html.escape(FONT, quote=True)}">',
-        f'<text x="22" y="35" fill="{color["muted"]}" font-size="14">&gt; ~/</text>',
+        f'<text x="22" y="37" fill="{color["muted"]}" font-size="{TITLE_FONT_SIZE}">&gt; ~/</text>',
     ]
     for index, line in enumerate(title):
         x = 56 if index == 0 else 22
         output.append(
-            f'<text x="{x}" y="{35 + index * 19}" fill="{color["value"]}" '
-            f'font-size="14">{xml_escape(line)}</text>'
+            f'<text x="{x}" y="{37 + index * 22}" fill="{color["value"]}" '
+            f'font-size="{TITLE_FONT_SIZE}">{xml_escape(line)}</text>'
         )
     output.append(
-        f'<line x1="22" y1="66" x2="498" y2="66" stroke="{color["border"]}"/>'
+        f'<line x1="22" y1="78" x2="498" y2="78" stroke="{color["border"]}"/>'
     )
     for index, line in enumerate(description):
         output.append(
-            f'<text x="22" y="{91 + index * 20}" fill="{color["fg"]}" '
-            f'font-size="12">{xml_escape(line)}</text>'
+            f'<text x="22" y="{104 + index * 23}" fill="{color["fg"]}" '
+            f'font-size="{BODY_FONT_SIZE}">{xml_escape(line)}</text>'
         )
 
     metadata: list[tuple[str, str]] = []
@@ -155,21 +157,21 @@ def render_card(repo: Repository, theme: str) -> str:
     for index, (label, value) in enumerate(metadata):
         if index:
             output.append(
-                f'<text x="{x}" y="190" fill="{color["muted"]}" '
-                f'font-size="12">·</text>'
+                f'<text x="{x}" y="260" fill="{color["muted"]}" '
+                f'font-size="{BODY_FONT_SIZE}">·</text>'
             )
             x += 19
         label_text = f"{label}: "
         output.append(
-            f'<text x="{x}" y="190" fill="{color["label"]}" '
-            f'font-size="12">{xml_escape(label_text)}</text>'
+            f'<text x="{x}" y="260" fill="{color["label"]}" '
+            f'font-size="{BODY_FONT_SIZE}">{xml_escape(label_text)}</text>'
         )
-        x += len(label_text) * 7.2
+        x += len(label_text) * BODY_FONT_SIZE * 0.6
         output.append(
-            f'<text x="{x:.1f}" y="190" fill="{color["value"]}" '
-            f'font-size="12">{xml_escape(value)}</text>'
+            f'<text x="{x:.1f}" y="260" fill="{color["value"]}" '
+            f'font-size="{BODY_FONT_SIZE}">{xml_escape(value)}</text>'
         )
-        x += len(value) * 7.2 + 10
+        x += len(value) * BODY_FONT_SIZE * 0.6 + 10
     output.extend(("</g>", "</svg>", ""))
     return "\n".join(output)
 

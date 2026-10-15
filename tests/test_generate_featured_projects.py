@@ -44,7 +44,8 @@ class FeaturedProjectsTests(unittest.TestCase):
         self.assertIn("No", generator.render_card(generator.Repository(
             "a", "team/a", None, "https://github.com/team/a", None, 0, 0), "light"))
         self.assertNotIn("lang:", svg)
-        self.assertLessEqual(svg.count('font-size="12">'), 9)
+        self.assertTrue(all(int(text.attrib["font-size"]) >= 16
+                            for text in root.iter() if text.tag.endswith("text")))
         markup = generator.render_featured([repo])
         self.assertIn('href="https://github.com/team/a%26%3C%22?x=&quot;&amp;y=1"', markup)
         self.assertIn("(prefers-color-scheme: dark)", markup)
