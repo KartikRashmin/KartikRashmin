@@ -49,6 +49,7 @@ class FeaturedProjectsTests(unittest.TestCase):
         self.assertIn('href="https://github.com/team/a%26%3C%22?x=&quot;&amp;y=1"', markup)
         self.assertIn("(prefers-color-scheme: dark)", markup)
         self.assertIn("(prefers-color-scheme: light)", markup)
+        self.assertIn('width="49%"', markup)
         self.assertNotEqual(generator.filename(repo, "dark"), generator.filename(
             generator.Repository("a", "other/a", None, "", None, 0, 0), "dark"))
 

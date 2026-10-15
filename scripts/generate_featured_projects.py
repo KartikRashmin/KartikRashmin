@@ -187,10 +187,10 @@ def render_featured(repos: list[Repository]) -> str:
             f'<a href="{url}"><picture>'
             f'<source media="(prefers-color-scheme: dark)" srcset="{dark}">'
             f'<source media="(prefers-color-scheme: light)" srcset="{light}">'
-            f'<img src="{light}" alt="{alt}" width="420">'
+            f'<img src="{light}" alt="{alt}" width="49%">'
             f'</picture></a>'
         )
-    # Inline images wrap naturally when there is room for fewer than two cards.
+    # Two percentage-width images fit per line without a GitHub-unsupported stylesheet.
     return '<div align="center">\n' + '\n'.join(cards) + '\n</div>'
 
 

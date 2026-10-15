@@ -21,8 +21,8 @@
 
 <!-- featured-projects:start -->
 <div align="center">
-<a href="https://github.com/KartikRashmin/LockedIn-YT"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/featured/kartikrashmin-lockedin-yt-db710bab01-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/featured/kartikrashmin-lockedin-yt-db710bab01-light.svg"><img src="assets/featured/kartikrashmin-lockedin-yt-db710bab01-light.svg" alt="KartikRashmin/LockedIn-YT repository card" width="420"></picture></a>
-<a href="https://github.com/KartikRashmin/kartikrashmin.github.io"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/featured/kartikrashmin-kartikrashmin-github-io-a5e1ee5430-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/featured/kartikrashmin-kartikrashmin-github-io-a5e1ee5430-light.svg"><img src="assets/featured/kartikrashmin-kartikrashmin-github-io-a5e1ee5430-light.svg" alt="KartikRashmin/kartikrashmin.github.io repository card" width="420"></picture></a>
+<a href="https://github.com/KartikRashmin/LockedIn-YT"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/featured/kartikrashmin-lockedin-yt-db710bab01-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/featured/kartikrashmin-lockedin-yt-db710bab01-light.svg"><img src="assets/featured/kartikrashmin-lockedin-yt-db710bab01-light.svg" alt="KartikRashmin/LockedIn-YT repository card" width="49%"></picture></a>
+<a href="https://github.com/KartikRashmin/kartikrashmin.github.io"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/featured/kartikrashmin-kartikrashmin-github-io-a5e1ee5430-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/featured/kartikrashmin-kartikrashmin-github-io-a5e1ee5430-light.svg"><img src="assets/featured/kartikrashmin-kartikrashmin-github-io-a5e1ee5430-light.svg" alt="KartikRashmin/kartikrashmin.github.io repository card" width="49%"></picture></a>
 </div>
 <!-- featured-projects:end -->
 
