@@ -1,0 +1,47 @@
+name: Generate Space Shooter Contributions
+
+on:
+  push:
+    branches: [experiment/space-shooter-contributions]
+    paths:
+      - README.md
+      - .github/workflows/space-shooter.yml
+  workflow_dispatch:
+  # Schedules run only from the default branch. Enable main in the job guard after promotion.
+  schedule:
+    - cron: '41 2 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.ref == 'refs/heads/experiment/space-shooter-contributions'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the experiment branch
+        uses: actions/checkout@v4
+
+      - name: Generate Space Shooter GIF
+        uses: czl9707/gh-space-shooter@b24c9792454d1a2e0139ccf72840424e1f83c3f2 # Includes no-commit input
+        with:
+          github-token: ${{ github.token }}
+          username: KartikRashmin
+          output-path: assets/space-shooter.gif
+          strategy: random
+          fps: '25'
+          no-commit: 'true'
+
+      - name: Commit changed GIF to the experiment branch
+        run: |
+          test -s assets/space-shooter.gif
+          git add -- assets/space-shooter.gif
+          if git diff --cached --quiet; then
+            echo 'Space Shooter GIF is unchanged.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: update Space Shooter contribution animation'
+          git push origin HEAD:refs/heads/experiment/space-shooter-contributions

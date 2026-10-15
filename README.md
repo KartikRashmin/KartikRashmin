@@ -15,8 +15,4 @@
   <a href="https://leetcode.com/u/KartikRashmin/"><img src="assets/badge-leetcode.svg" alt="LeetCode"></a>
 </p>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KartikRashmin/KartikRashmin/output/github-snake-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/KartikRashmin/KartikRashmin/output/github-snake.svg">
-  <img alt="GitHub contribution snake" src="https://raw.githubusercontent.com/KartikRashmin/KartikRashmin/output/github-snake.svg">
-</picture>
+<img alt="GitHub contribution space shooter animation" src="assets/space-shooter.gif">
