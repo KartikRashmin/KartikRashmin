@@ -1,6 +1,6 @@
 """Generates a colored, fastfetch-style profile card as SVG (dark + light).
 
-Output: assets/fastfetch-dark.svg and assets/fastfetch-light.svg
+Output: assets/fastfetch-transparent-dark.svg and assets/fastfetch-transparent-light.svg
 Optional: set a STATS_TOKEN secret (classic PAT: repo + read:user) to include
 private repos in the stats. Without it, only public data is counted.
 """
@@ -334,7 +334,7 @@ def main():
     portrait = b64encode(PORTRAIT_PATH.read_bytes()).decode("ascii")
     Path("assets").mkdir(exist_ok=True)
     for theme in THEMES:
-        Path(f"assets/fastfetch-{theme}.svg").write_text(
+        Path(f"assets/fastfetch-transparent-{theme}.svg").write_text(
             render(info, theme, portrait), encoding="utf-8"
         )
 
