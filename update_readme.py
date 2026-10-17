@@ -1,13 +1,12 @@
 """Generates a colored, fastfetch-style profile card as SVG (dark + light).
 
 Output: assets/fastfetch-dark.svg and assets/fastfetch-light.svg
-Optional: put your own ASCII art in a file called ascii.txt next to this script.
 Optional: set a STATS_TOKEN secret (classic PAT: repo + read:user) to include
 private repos in the stats. Without it, only public data is counted.
 """
 import os, json, time, urllib.request
+from base64 import b64encode
 from datetime import date, datetime, timedelta
-from itertools import zip_longest
 from pathlib import Path
 from xml.sax.saxutils import escape
 from zoneinfo import ZoneInfo
@@ -15,7 +14,7 @@ from zoneinfo import ZoneInfo
 USER = "KartikRashmin"
 DOB = date(2005, 9, 26)
 W = 64      # width (in characters) of the info column
-GAP = 3     # spaces between ASCII art and info column
+GAP = 3     # spaces between the portrait column and info column
 
 # ---- lines-of-code filtering (tune these if the number looks inflated) ----
 LOC_SKIP_FORKS = True          # ignore forked repos
@@ -29,6 +28,9 @@ LINE_H = 20
 CHAR_W = 8.45           # ~real glyph width; textLength in render() locks spacing to this
 PAD_X, PAD_Y = 28, 26
 FONT = "'SFMono-Regular','Consolas','Liberation Mono','Menlo','DejaVu Sans Mono',monospace"
+PORTRAIT_PATH = Path("assets/fastfetch-portrait.png")
+PORTRAIT_W, PORTRAIT_H = 140, 269
+PORTRAIT_COL_W = 20 * CHAR_W
 
 THEMES = {
     "dark": dict(bg="#161b22", border="#30363d", fg="#c9d1d9", muted="#6e7681",
@@ -36,30 +38,6 @@ THEMES = {
     "light": dict(bg="#f6f8fa", border="#d0d7de", fg="#24292f", muted="#8c959f",
                   label="#bc4c00", value="#0550ae", add="#1a7f37", dele="#cf222e"),
 }
-
-DEFAULT_ART = [
-    r"     .--.     ",
-    r"    |o_o |    ",
-    r"    |:_/ |    ",
-    r"   //   \ \   ",
-    r"  (|     | )  ",
-    r" /'\_   _/`\  ",
-    r" \___)=(___/  ",
-]
-
-
-def load_art():
-    p = Path("ascii.txt")
-    if p.exists():
-        lines = [l.expandtabs(4).rstrip() for l in p.read_text(encoding="utf-8").splitlines()]
-        while lines and not lines[0].strip():
-            lines.pop(0)
-        while lines and not lines[-1].strip():
-            lines.pop()
-        if lines:
-            return lines
-    return DEFAULT_ART
-
 
 def today_ist():
     # GitHub runners use UTC; use IST so the uptime rolls over at local midnight
@@ -306,31 +284,27 @@ def nb(text):
     return escape(text).replace(" ", "\u00a0")
 
 
-def render(art, info, theme):
+def render(info, theme, portrait):
     c = THEMES[theme]
-    art_w = max(len(a) for a in art)
-    # center short art vertically next to the info column
-    art = [""] * max(0, (len(info) - len(art)) // 2) + list(art)
-    rows = list(zip_longest(art, info, fillvalue=None))
-    info_x = PAD_X + (art_w + GAP) * CHAR_W
+    info_x = PAD_X + PORTRAIT_COL_W + GAP * CHAR_W
     info_cols = max([W] + [_len(l) for l in info])
     width = int(info_x + info_cols * CHAR_W + PAD_X)
-    height = len(rows) * LINE_H + 2 * PAD_Y - 6
+    height = len(info) * LINE_H + 2 * PAD_Y - 6
+    portrait_x = PAD_X + (PORTRAIT_COL_W - PORTRAIT_W) / 2
+    portrait_y = (height - PORTRAIT_H) / 2
 
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
         f'viewBox="0 0 {width} {height}" role="img" aria-label="fastfetch profile card">',
         f'<rect x="0.5" y="0.5" width="{width - 1}" height="{height - 1}" rx="10" '
         f'fill="{c["bg"]}" stroke="{c["border"]}"/>',
+        f'<image x="{portrait_x:.1f}" y="{portrait_y:.1f}" '
+        f'width="{PORTRAIT_W}" height="{PORTRAIT_H}" '
+        f'href="data:image/png;base64,{portrait}"/>',
         f'<g font-family="{FONT}" font-size="{FONT_SIZE}">',
     ]
-    for i, (a, segs) in enumerate(rows):
+    for i, segs in enumerate(info):
         y = PAD_Y + i * LINE_H + FONT_SIZE
-        if a and a.strip():
-            out.append(
-                f'<text x="{PAD_X}" y="{y}" fill="{c["fg"]}" '
-                f'textLength="{len(a) * CHAR_W:.1f}" lengthAdjust="spacing">{nb(a)}</text>'
-            )
         if segs:
             parts, rules, col = [], [], 0
             for text, role in segs:
@@ -356,12 +330,12 @@ def render(art, info, theme):
 
 
 def main():
-    art = load_art()
     info = build_info()
+    portrait = b64encode(PORTRAIT_PATH.read_bytes()).decode("ascii")
     Path("assets").mkdir(exist_ok=True)
     for theme in THEMES:
         Path(f"assets/fastfetch-{theme}.svg").write_text(
-            render(art, info, theme), encoding="utf-8"
+            render(info, theme, portrait), encoding="utf-8"
         )
 
 
