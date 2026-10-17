@@ -3,9 +3,9 @@
 ```
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/fastfetch-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/fastfetch-light.svg">
-  <img alt="fastfetch" src="assets/fastfetch-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/fastfetch-transparent-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/fastfetch-transparent-light.svg">
+  <img alt="fastfetch" src="assets/fastfetch-transparent-dark.svg">
 </picture>
 
 <p align="center">
