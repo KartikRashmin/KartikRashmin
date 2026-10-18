@@ -1,0 +1,73 @@
+
+name: Update LeetCode Isometric Graph
+
+on:
+  push:
+    branches: [experiment/leetcode-readme]
+    paths:
+      - README.md
+      - .github/workflows/leetcode-isometric.yml
+
+  workflow_dispatch:
+
+  schedule:
+    - cron: "19 5 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: leetcode-isometric-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout profile repository
+        uses: actions/checkout@v7
+
+      - name: Generate LeetCode graphs
+        uses: KartikRashmin/leetcode-isometric-3d@v1
+        with:
+          username: KartikRashmin
+          output-dir: assets
+          show-stats: "true"
+          show-credit: "true"
+
+      - name: Validate generated SVGs
+        run: |
+          python3 - <<'PY'
+          from xml.etree import ElementTree
+          from pathlib import Path
+
+          for theme in ("dark", "light"):
+              path = Path(
+                  f"assets/leetcode-isometric-{theme}.svg"
+              )
+              assert path.is_file() and path.stat().st_size > 0
+              root = ElementTree.parse(path).getroot()
+              assert root.tag == "{http://www.w3.org/2000/svg}svg"
+
+          print("Both LeetCode SVGs are valid.")
+          PY
+
+      - name: Commit updated SVG assets
+        run: |
+          git add -- \
+            assets/leetcode-isometric-dark.svg \
+            assets/leetcode-isometric-light.svg
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git commit -m "chore: refresh LeetCode 3D graph"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
