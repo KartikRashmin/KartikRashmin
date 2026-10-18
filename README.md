@@ -38,6 +38,24 @@
   <img alt="Isometric 3D GitHub contribution graph" src="assets/isometric-3d-light.svg">
 </picture>
 
+
+```bash
+> leetcode submissions --visualize
+```
+
+<picture>
+  <source
+    media="(prefers-color-scheme: dark)"
+    srcset="assets/leetcode-isometric-dark.svg">
+  <source
+    media="(prefers-color-scheme: light)"
+    srcset="assets/leetcode-isometric-light.svg">
+  <img
+    alt="LeetCode Isometric 3D Activity Graph"
+    src="assets/leetcode-isometric-light.svg">
+</picture>
+
+
 ```bash
 > cat current-focus.txt
 ```
